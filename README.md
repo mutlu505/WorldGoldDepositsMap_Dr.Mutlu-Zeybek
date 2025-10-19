@@ -1141,3 +1141,509 @@ def analyze_gold_data():
 
 analyze_gold_data()
 
+#Method 1: Advanced Geological Context Map with Tectonic Frameworks
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
+def create_geological_tectonic_gold_map():
+    """
+    Create a detailed geological map with tectonic frameworks and gold deposits
+    """
+    
+    # Geological provinces and tectonic settings data
+    tectonic_provinces = [
+        # Cratons
+        {'name': 'Canadian Shield', 'type': 'Craton', 'lons': [-100, -80, -70, -90, -110, -100], 
+         'lats': [60, 55, 45, 40, 50, 60], 'color': 'lightgreen'},
+        
+        {'name': 'African Craton', 'type': 'Craton', 'lons': [-10, 25, 35, 20, 5, -10], 
+         'lats': [5, 5, -10, -25, -25, 5], 'color': 'lightgreen'},
+        
+        {'name': 'Yilgarn Craton', 'type': 'Craton', 'lons': [115, 125, 125, 120, 115], 
+         'lats': [-25, -25, -35, -35, -25], 'color': 'lightgreen'},
+        
+        # Orogenic Belts
+        {'name': 'Andean Orogen', 'type': 'Orogenic Belt', 'lons': [-80, -70, -65, -75], 
+         'lats': [-10, -20, -40, -30], 'color': 'orange'},
+        
+        {'name': 'Tien Shan Orogen', 'type': 'Orogenic Belt', 'lons': [70, 85, 90, 75], 
+         'lats': [40, 40, 45, 45], 'color': 'orange'},
+        
+        # Volcanic Arcs
+        {'name': 'Pacific Ring of Fire', 'type': 'Volcanic Arc', 
+         'lons': [-170, -150, -120, -75, -70, 140, 160, 180, -170], 
+         'lats': [60, 50, 30, -10, -30, -30, 50, 60, 60], 'color': 'red'},
+    ]
+    
+    # Major fault systems
+    fault_systems = [
+        {'name': 'San Andreas Fault', 'lons': [-125, -115], 'lats': [40, 35], 'type': 'Transform'},
+        {'name': 'Alpine Fault', 'lons': [170, 175], 'lats': [-45, -40], 'type': 'Transform'},
+        {'name': 'Ashanti Shear Zone', 'lons': [-3, -1], 'lats': [6, 8], 'type': 'Shear Zone'},
+    ]
+    
+    # Gold deposits with geological context
+    gold_deposits = [
+        # Orogenic deposits in greenstone belts
+        {'name': 'Kalgoorlie Super Pit', 'lat': -30.76, 'lon': 121.47, 'type': 'Orogenic',
+         'geological_context': 'Archean Greenstone Belt', 'tectonic_setting': 'Yilgarn Craton',
+         'host_rocks': 'Komatiites, Tholeiitic Basalts', 'mineralization_age': '2.7 Ga',
+         'associated_structures': 'Regional Shear Zones'},
+        
+        {'name': 'Homestake', 'lat': 44.35, 'lon': -103.75, 'type': 'Orogenic',
+         'geological_context': 'Precambrian Metamorphic Terrane', 'tectonic_setting': 'Superior Craton Margin',
+         'host_rocks': 'Iron Formation, Metasediments', 'mineralization_age': '1.8 Ga',
+         'associated_structures': 'Folds and Shear Zones'},
+        
+        # Carlin-type in sedimentary basins
+        {'name': 'Carlin Trend', 'lat': 40.95, 'lon': -116.13, 'type': 'Carlin-type',
+         'geological_context': 'Paleozoic Carbonate Platform', 'tectonic_setting': 'Basin and Range Province',
+         'host_rocks': 'Siliceous Carbonates, Shales', 'mineralization_age': '40 Ma',
+         'associated_structures': 'Extensional Faults'},
+        
+        # Porphyry in volcanic arcs
+        {'name': 'Grasberg', 'lat': -4.06, 'lon': 137.11, 'type': 'Porphyry',
+         'geological_context': 'Island Arc Volcanics', 'tectonic_setting': 'Pacific Ring of Fire',
+         'host_rocks': 'Diorite Porphyry, Volcanics', 'mineralization_age': '3 Ma',
+         'associated_structures': 'Magmatic-Hydrothermal Breccias'},
+        
+        # Epithermal in volcanic terrains
+        {'name': 'Yanacocha', 'lat': -6.48, 'lon': -78.35, 'type': 'Epithermal',
+         'geological_context': 'Andean Volcanic Belt', 'tectonic_setting': 'Continental Arc',
+         'host_rocks': 'Dacitic Volcanics', 'mineralization_age': '15 Ma',
+         'associated_structures': 'Caldera Ring Faults'},
+        
+        # Paleoplacer in sedimentary basins
+        {'name': 'Witwatersrand', 'lat': -26.20, 'lon': 28.05, 'type': 'Paleoplacer',
+         'geological_context': 'Archean Sedimentary Basin', 'tectonic_setting': 'Kaapvaal Craton',
+         'host_rocks': 'Quartz-Pebble Conglomerates', 'mineralization_age': '2.9 Ga',
+         'associated_structures': 'Basin-Margin Faults'},
+    ]
+    
+    df = pd.DataFrame(gold_deposits)
+    
+    # Create the map
+    fig = go.Figure()
+    
+    # Add tectonic provinces as filled areas
+    for province in tectonic_provinces:
+        fig.add_trace(go.Scattergeo(
+            lon = province['lons'],
+            lat = province['lats'],
+            mode = 'lines',
+            fill = 'toself',
+            fillcolor = province['color'],
+            line = dict(width=0),
+            name = f"{province['type']}: {province['name']}",
+            opacity = 0.3,
+            showlegend = True
+        ))
+    
+    # Add fault systems
+    for fault in fault_systems:
+        fig.add_trace(go.Scattergeo(
+            lon = fault['lons'],
+            lat = fault['lats'],
+            mode = 'lines',
+            line = dict(width=3, color='black', dash='dash'),
+            name = f"{fault['type']}: {fault['name']}",
+            opacity = 0.7
+        ))
+    
+    # Add gold deposits with geological context
+    color_map = {'Orogenic': 'red', 'Carlin-type': 'blue', 'Porphyry': 'green', 
+                'Epithermal': 'orange', 'Paleoplacer': 'purple'}
+    
+    for deposit_type in df['type'].unique():
+        df_subset = df[df['type'] == deposit_type]
+        
+        fig.add_trace(go.Scattergeo(
+            lon = df_subset['lon'],
+            lat = df_subset['lat'],
+            text = df_subset.apply(lambda x: 
+                f"<b>{x['name']}</b><br>"
+                f"Type: {x['type']}<br>"
+                f"Geological Context: {x['geological_context']}<br>"
+                f"Tectonic Setting: {x['tectonic_setting']}<br>"
+                f"Host Rocks: {x['host_rocks']}<br>"
+                f"Mineralization Age: {x['mineralization_age']}<br>"
+                f"Structures: {x['associated_structures']}", axis=1),
+            name = f'{deposit_type} Deposits',
+            marker = dict(
+                size = 15,
+                color = color_map[deposit_type],
+                line = dict(width=2, color='white'),
+                symbol = 'circle'
+            ),
+            hovertemplate = '%{text}<extra></extra>'
+        ))
+    
+    # Update layout
+    fig.update_layout(
+        title = dict(
+            text='<b>Gold Deposits in Geological and Tectonic Context</b><br>'
+                 '<sub>Showing tectonic provinces, fault systems, and deposit geology</sub>',
+            x=0.5,
+            xanchor='center',
+            font=dict(size=16)
+        ),
+        geo = dict(
+            scope = 'world',
+            showland = True,
+            landcolor = 'white',
+            showocean = True,
+            oceancolor = 'lightblue',
+            showcountries = True,
+            countrycolor = 'gray',
+            countrywidth = 0.5,
+            projection_type = 'natural earth'
+        ),
+        height = 800,
+        showlegend = True
+    )
+    
+    fig.show()
+    fig.write_html("geological_tectonic_gold_map.html")
+    
+    return df
+
+# Create the geological-tectonic map
+geo_tectonic_df = create_geological_tectonic_gold_map()
+
+#Method 2: Lithological and Structural Controls Map
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import numpy as np
+
+def create_lithological_structural_map():
+    """
+    Create a map showing lithological and structural controls on gold mineralization
+    """
+    
+    fig = plt.figure(figsize=(20, 15))
+    ax = plt.axes(projection=ccrs.Robinson())
+    ax.set_global()
+    
+    # Base features
+    ax.add_feature(cfeature.LAND, color='lightgray')
+    ax.add_feature(cfeature.OCEAN, color='lightblue')
+    ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
+    
+    # Major lithological domains (simplified)
+    litho_domains = [
+        # Greenstone belts
+        {'name': 'Yilgarn Greenstones', 'lons': [118, 122, 122, 118], 'lats': [-28, -28, -32, -32], 
+         'color': 'darkgreen', 'type': 'Greenstone Belt'},
+        {'name': 'Abitibi Greenstones', 'lons': [-80, -75, -75, -80], 'lats': [48, 48, 52, 52], 
+         'color': 'darkgreen', 'type': 'Greenstone Belt'},
+        
+        # Carbonate platforms
+        {'name': 'Great Basin Carbonates', 'lons': [-118, -114, -114, -118], 'lats': [38, 38, 42, 42], 
+         'color': 'lightblue', 'type': 'Carbonate Platform'},
+        
+        # Volcanic terrains
+        {'name': 'Andean Volcanics', 'lons': [-78, -70, -70, -78], 'lats': [-8, -8, -20, -20], 
+         'color': 'red', 'type': 'Volcanic Arc'},
+    ]
+    
+    # Plot lithological domains
+    for domain in litho_domains:
+        lons = domain['lons'] + [domain['lons'][0]]
+        lats = domain['lats'] + [domain['lats'][0]]
+        ax.fill(lons, lats, color=domain['color'], alpha=0.4, 
+                transform=ccrs.PlateCarree(), label=domain['type'])
+    
+    # Structural features
+    structures = [
+        # Shear zones
+        {'name': 'Ashanti Shear Zone', 'lons': [-3, -1], 'lats': [5, 9], 'type': 'Shear Zone', 'style': 'solid'},
+        {'name': 'Boulder-Lefroy Shear', 'lons': [120, 122], 'lats': [-30, -31], 'type': 'Shear Zone', 'style': 'solid'},
+        
+        # Major faults
+        {'name': 'San Andreas Fault', 'lons': [-125, -115], 'lats': [35, 34], 'type': 'Transform Fault', 'style': 'dashed'},
+        {'name': 'Denali Fault', 'lons': [-150, -140], 'lats': [63, 62], 'type': 'Strike-Slip', 'style': 'dashed'},
+    ]
+    
+    for structure in structures:
+        ax.plot(structure['lons'], structure['lats'], color='black', 
+                linewidth=2, linestyle=structure['style'],
+                transform=ccrs.PlateCarree(), label=structure['type'])
+    
+    # Gold deposits categorized by host rock type
+    deposits_by_lithology = [
+        # Greenstone-hosted
+        {'name': 'Kalgoorlie', 'lon': 121.47, 'lat': -30.76, 'host_rock': 'Greenstone', 'symbol': 'o'},
+        {'name': 'Red Lake', 'lon': -93.83, 'lat': 51.06, 'host_rock': 'Greenstone', 'symbol': 'o'},
+        
+        # Carbonate-hosted (Carlin-type)
+        {'name': 'Carlin', 'lon': -116.13, 'lat': 40.95, 'host_rock': 'Carbonate', 'symbol': 's'},
+        {'name': 'Cortez', 'lon': -116.87, 'lat': 39.74, 'host_rock': 'Carbonate', 'symbol': 's'},
+        
+        # Volcanic-hosted
+        {'name': 'Yanacocha', 'lon': -78.35, 'lat': -6.48, 'host_rock': 'Volcanic', 'symbol': '^'},
+        {'name': 'Lihir', 'lon': 152.64, 'lat': -3.12, 'host_rock': 'Volcanic', 'symbol': '^'},
+        
+        # Sedimentary-hosted
+        {'name': 'Witwatersrand', 'lon': 28.05, 'lat': -26.20, 'host_rock': 'Sedimentary', 'symbol': 'D'},
+        {'name': 'Muruntau', 'lon': 64.61, 'lat': 41.55, 'host_rock': 'Sedimentary', 'symbol': 'D'},
+    ]
+    
+    # Plot deposits
+    host_rock_colors = {'Greenstone': 'darkgreen', 'Carbonate': 'lightblue', 
+                       'Volcanic': 'red', 'Sedimentary': 'brown'}
+    
+    for deposit in deposits_by_lithology:
+        ax.scatter(deposit['lon'], deposit['lat'], 
+                  marker=deposit['symbol'],
+                  s=100,
+                  color=host_rock_colors[deposit['host_rock']],
+                  edgecolors='black',
+                  linewidth=1,
+                  transform=ccrs.PlateCarree(),
+                  label=deposit['host_rock'])
+        
+        # Add labels for major deposits
+        ax.text(deposit['lon'] + 2, deposit['lat'], deposit['name'],
+               transform=ccrs.PlateCarree(), fontsize=8, ha='left')
+    
+    # Create custom legend
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='darkgreen', alpha=0.4, label='Greenstone Belts'),
+        Patch(facecolor='lightblue', alpha=0.4, label='Carbonate Platforms'),
+        Patch(facecolor='red', alpha=0.4, label='Volcanic Arcs'),
+        plt.Line2D([0], [0], color='black', linestyle='solid', label='Shear Zones'),
+        plt.Line2D([0], [0], color='black', linestyle='dashed', label='Major Faults'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='darkgreen', 
+                  markersize=10, label='Greenstone-hosted'),
+        plt.Line2D([0], [0], marker='s', color='w', markerfacecolor='lightblue', 
+                  markersize=10, label='Carbonate-hosted'),
+        plt.Line2D([0], [0], marker='^', color='w', markerfacecolor='red', 
+                  markersize=10, label='Volcanic-hosted'),
+        plt.Line2D([0], [0], marker='D', color='w', markerfacecolor='brown', 
+                  markersize=10, label='Sedimentary-hosted'),
+    ]
+    
+    ax.legend(handles=legend_elements, loc='lower left', fontsize=8)
+    
+    plt.title('Lithological and Structural Controls on Gold Mineralization\n'
+             'Geological Framework Based on USGS and Global Datasets', 
+             fontsize=14, pad=20)
+    
+    plt.tight_layout()
+    plt.savefig('lithological_structural_controls.png', dpi=300, bbox_inches='tight')
+    plt.show()
+
+create_lithological_structural_map()
+
+#Method 3: Geodynamic Evolution and Mineralization Timeline with English Legend Box
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from matplotlib import patches as mpatches
+
+def create_geodynamic_evolution_chart():
+    """
+    Create a timeline showing geodynamic evolution and gold mineralization events
+    with English legend box and non-overlapping text
+    """
+    
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12))
+    
+    # Geological timeline data - organized by time periods to prevent overlap
+    geological_events = [
+        # Archean events
+        {'age': 4000, 'event': 'Formation of Early Crust', 'type': 'Crustal Evolution', 'y_pos': 1.2},
+        {'age': 3500, 'event': 'First Greenstone Belts', 'type': 'Crustal Evolution', 'y_pos': 1.1},
+        {'age': 3000, 'event': 'Major Craton Stabilization', 'type': 'Crustal Evolution', 'y_pos': 1.3},
+        {'age': 2700, 'event': 'Archean Gold Event\n(Kalgoorlie)', 'type': 'Mineralization', 'y_pos': 0.8},
+        {'age': 2500, 'event': 'Witwatersrand Basin', 'type': 'Mineralization', 'y_pos': 0.9},
+        
+        # Proterozoic events
+        {'age': 2000, 'event': 'Proterozoic Orogenies', 'type': 'Tectonic Event', 'y_pos': 1.2},
+        {'age': 1800, 'event': 'Homestake\nMineralization', 'type': 'Mineralization', 'y_pos': 0.8},
+        {'age': 1000, 'event': 'Grenville Orogeny', 'type': 'Tectonic Event', 'y_pos': 1.1},
+        
+        # Phanerozoic events
+        {'age': 600, 'event': 'Breakup of Rodinia', 'type': 'Tectonic Event', 'y_pos': 1.3},
+        {'age': 400, 'event': 'Caledonian Orogeny', 'type': 'Tectonic Event', 'y_pos': 1.2},
+        {'age': 300, 'event': 'Hercynian Orogeny', 'type': 'Tectonic Event', 'y_pos': 1.1},
+        {'age': 100, 'event': 'Andean Orogeny Begins', 'type': 'Tectonic Event', 'y_pos': 1.3},
+        {'age': 40, 'event': 'Carlin-type\nMineralization', 'type': 'Mineralization', 'y_pos': 0.8},
+        {'age': 15, 'event': 'Andean Epithermal\nSystems', 'type': 'Mineralization', 'y_pos': 0.9},
+        {'age': 3, 'event': 'Grasberg Porphyry\nSystem', 'type': 'Mineralization', 'y_pos': 1.0},
+    ]
+    
+    # Convert to DataFrame for easier handling
+    events_df = pd.DataFrame(geological_events)
+    
+    # Color coding with distinct colors
+    color_map = {
+        'Crustal Evolution': '#2E8B57',      # Green
+        'Tectonic Event': '#D2691E',         # Brown
+        'Mineralization': '#DC143C'          # Red
+    }
+    
+    # Size coding for different importance levels
+    size_map = {
+        'Crustal Evolution': 120,
+        'Tectonic Event': 100,
+        'Mineralization': 150
+    }
+    
+    # Plot timeline with staggered y-positions
+    for _, event in events_df.iterrows():
+        ax1.scatter(event['age'], event['y_pos'], 
+                   color=color_map[event['type']], 
+                   s=size_map[event['type']],
+                   alpha=0.8,
+                   edgecolors='black',
+                   linewidth=1,
+                   zorder=3)
+        
+        # Improved text placement with rotation and alignment
+        ha = 'right' if event['age'] > 1000 else 'left'
+        
+        ax1.text(event['age'], event['y_pos'] + 0.15, event['event'],
+                rotation=0, 
+                ha=ha, 
+                va='bottom', 
+                fontsize=8,
+                fontweight='bold' if event['type'] == 'Mineralization' else 'normal',
+                bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8, edgecolor='none'),
+                zorder=4)
+    
+    # Add timeline base
+    ax1.axhline(y=1, color='black', linewidth=2, alpha=0.5, zorder=1)
+    
+    # Add geological time period annotations
+    time_periods = [
+        {'name': 'ARCHEAN', 'start': 4000, 'end': 2500, 'y_pos': 1.6},
+        {'name': 'PROTEROZOIC', 'start': 2500, 'end': 541, 'y_pos': 1.6},
+        {'name': 'PHANEROZOIC', 'start': 541, 'end': 0, 'y_pos': 1.6},
+    ]
+    
+    for period in time_periods:
+        mid_point = (period['start'] + period['end']) / 2
+        ax1.text(mid_point, period['y_pos'], period['name'],
+                ha='center', va='center', fontsize=10, fontweight='bold',
+                bbox=dict(boxstyle="round,pad=0.3", facecolor='lightgray', alpha=0.8))
+    
+    ax1.set_xlim(4500, -100)
+    ax1.set_ylim(0.5, 1.8)
+    ax1.set_xlabel('Geological Time (Million Years Ago)', fontsize=12, fontweight='bold')
+    ax1.set_ylabel('Event Type', fontsize=12, fontweight='bold')
+    ax1.set_title('Geodynamic Evolution and Gold Mineralization Timeline', 
+                 fontsize=14, fontweight='bold', pad=20)
+    ax1.grid(True, alpha=0.3, zorder=0)
+    
+    # Remove y-axis ticks but keep the label
+    ax1.set_yticks([])
+    
+    # Second subplot: Gold deposit formation by tectonic setting
+    tectonic_settings = {
+        'Archean Cratons': [2700, 2500],
+        'Proterozoic Orogens': [2000, 1800],
+        'Phanerozoic Convergent Margins': [400, 300, 100, 40, 15, 3],
+        'Intracontinental Rifts': [40, 30],
+    }
+    
+    # Color map for tectonic settings
+    tectonic_colors = {
+        'Archean Cratons': '#2E8B57',
+        'Proterozoic Orogens': '#D2691E', 
+        'Phanerozoic Convergent Margins': '#DC143C',
+        'Intracontinental Rifts': '#9370DB'
+    }
+    
+    y_positions = {
+        'Archean Cratons': 3,
+        'Proterozoic Orogens': 2,
+        'Phanerozoic Convergent Margins': 1,
+        'Intracontinental Rifts': 0
+    }
+    
+    for setting, ages in tectonic_settings.items():
+        # Plot main events as larger points
+        ax2.scatter(ages, [y_positions[setting]] * len(ages), 
+                   s=100, alpha=0.8, color=tectonic_colors[setting],
+                   edgecolors='black', linewidth=1, zorder=3)
+        
+        # Add setting labels without overlapping
+        if ages:
+            label_x = min(ages) - 200
+            ax2.text(label_x, y_positions[setting], setting,
+                    ha='right', va='center', fontsize=9, fontweight='bold',
+                    bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8))
+    
+    # Add time period background colors
+    ax2.axvspan(4000, 2500, alpha=0.1, color='green')
+    ax2.axvspan(2500, 541, alpha=0.1, color='blue')
+    ax2.axvspan(541, 0, alpha=0.1, color='red')
+    
+    ax2.set_xlim(4500, -100)
+    ax2.set_ylim(-0.5, 3.5)
+    ax2.set_xlabel('Geological Time (Million Years Ago)', fontsize=12, fontweight='bold')
+    ax2.set_ylabel('Tectonic Setting', fontsize=12, fontweight='bold')
+    ax2.set_title('Gold Deposit Formation by Tectonic Setting', 
+                 fontsize=14, fontweight='bold', pad=20)
+    ax2.grid(True, alpha=0.3, zorder=0)
+    
+    # Remove y-axis ticks but keep the label
+    ax2.set_yticks([])
+    
+    # CREATE ENGLISH LEGEND BOX
+    # First subplot legend
+    legend_elements1 = [
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#2E8B57', 
+                  markersize=8, label='Crustal Evolution'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#D2691E', 
+                  markersize=8, label='Tectonic Events'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#DC143C', 
+                  markersize=8, label='Gold Mineralization'),
+    ]
+    
+    # Second subplot legend
+    legend_elements2 = [
+        mpatches.Patch(facecolor='green', alpha=0.3, label='Archean (4000-2500 Ma)'),
+        mpatches.Patch(facecolor='blue', alpha=0.3, label='Proterozoic (2500-541 Ma)'),
+        mpatches.Patch(facecolor='red', alpha=0.3, label='Phanerozoic (541-0 Ma)'),
+    ]
+    
+    # Position legends strategically to avoid overlap
+    ax1.legend(handles=legend_elements1, loc='upper right', framealpha=0.9, 
+               title='Event Types', title_fontsize=10)
+    ax2.legend(handles=legend_elements2, loc='upper right', framealpha=0.9,
+               title='Geological Eras', title_fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig('geodynamic_evolution_timeline_english_legend.png', dpi=300, bbox_inches='tight')
+    plt.show()
+    
+    # Print summary in English
+    print("="*60)
+    print("GEODYNAMIC EVOLUTION OF GOLD MINERALIZATION")
+    print("="*60)
+    
+    mineralization_events = events_df[events_df['type'] == 'Mineralization']
+    print("\nMAJOR GOLD MINERALIZATION EVENTS:")
+    print("-" * 40)
+    for _, event in mineralization_events.iterrows():
+        print(f"{event['age']:4} Ma: {event['event'].replace('\\n', ' - ')}")
+    
+    print(f"\nTotal mineralization events: {len(mineralization_events)}")
+    
+    # Calculate time distribution
+    archean_min = len([e for e in mineralization_events['age'] if e > 2500])
+    proterozoic_min = len([e for e in mineralization_events['age'] if 541 <= e <= 2500])
+    phanerozoic_min = len([e for e in mineralization_events['age'] if e < 541])
+    
+    print(f"\nMineralization by Geological Era:")
+    print(f"Archean: {archean_min} events")
+    print(f"Proterozoic: {proterozoic_min} events") 
+    print(f"Phanerozoic: {phanerozoic_min} events")
+
+# Create the improved timeline chart with English legend
+create_geodynamic_evolution_chart()
